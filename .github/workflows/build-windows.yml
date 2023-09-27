@@ -6,6 +6,9 @@ jobs:
   build:
     runs-on: windows-2022
 
+    env:
+      LD_DEBUG: all
+
     strategy:
       fail-fast: false
       matrix:
@@ -56,7 +59,7 @@ jobs:
 
     - name: DiligentCoreTest
       if:   ${{ success() && matrix.name != 'UWP'}}
-      uses: DiligentGraphics/github-action/run-core-tests@v1
+      uses: DiligentGraphics/github-action/run-core-tests@mingw
 
     - name: DiligentCoreAPITest D3D11
       # NB: it is essential to include failure() to override the default status check of success()
