@@ -12,11 +12,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        name:            ["Win10"]
+        name:            ["MinGW"]
         toolset:         ["x64"]
         build_type:      ["Release"]
-        cmake_generator: ["Visual Studio 17 2022"]
-        cmake_args:      ["-DDILIGENT_BUILD_TESTS=ON"]
+        cmake_generator: ["MinGW Makefiles"]
+        cmake_args:      ["-DDILIGENT_BUILD_CORE_TESTS=ON -DILIGENT_NO_DIRECT3D11=ON -DILIGENT_NO_DIRECT3D12=ON -DDILIGENT_NO_VULKAN=ON"]
         platform:        ["Win32"]
 
     name: Win10 -> ${{ matrix.name }}-${{ matrix.toolset }}, ${{ matrix.build_type }}
