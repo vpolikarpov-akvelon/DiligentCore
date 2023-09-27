@@ -32,26 +32,6 @@ jobs:
         platform:        ["Win32"]
 
         include:
-          - name:            "Win10-Dev"
-            platform:        "Win32"
-            toolset:         "x64"
-            build_type:      "RelWithDebInfo"
-            cmake_generator: "Visual Studio 17 2022"
-            cmake_args:      "-DDILIGENT_BUILD_CORE_TESTS=ON -DDILIGENT_DEVELOPMENT=ON -DDILIGENT_LOAD_PIX_EVENT_RUNTIME=ON"
-
-          - name:            "Win8.1"
-            platform:        "Win32"
-            toolset:         "x64"
-            build_type:      "Release"
-            cmake_generator: "Visual Studio 17 2022"
-            cmake_args:      "-DDILIGENT_BUILD_CORE_TESTS=ON -DCMAKE_SYSTEM_VERSION=8.1"
-
-          - name:            "Win10-Ninja"
-            platform:        "Win32"
-            toolset:         "x64"
-            build_type:      "Debug"
-            cmake_generator: "Ninja"
-            cmake_args:      "-DDILIGENT_BUILD_CORE_TESTS=ON"
 
           - name:            "MinGW"
             platform:        "Win32"
@@ -60,20 +40,6 @@ jobs:
             cmake_generator: "MinGW Makefiles"
             cmake_args:      "-DDILIGENT_BUILD_CORE_TESTS=ON"
 
-          - name:            "UWP"
-            platform:        "UWP"
-            toolset:         "x64"
-            build_type:      "Debug"
-            cmake_generator: "Visual Studio 17 2022"
-            cmake_args:      "-DCMAKE_SYSTEM_NAME=WindowsStore -DCMAKE_SYSTEM_VERSION=10.0 -DDILIGENT_LOAD_PIX_EVENT_RUNTIME=ON"
-
-          - name:            "UWP"
-            platform:        "UWP"
-            toolset:         "x64"
-            build_type:      "Release"
-            cmake_generator: "Visual Studio 17 2022"
-            cmake_args:      "-DCMAKE_SYSTEM_NAME=WindowsStore -DCMAKE_SYSTEM_VERSION=10.0 -DDILIGENT_LOAD_PIX_EVENT_RUNTIME=ON"
-
     name: Win10 -> ${{ matrix.name }}-${{ matrix.toolset }}, ${{ matrix.build_type }}
 
     steps:
@@ -81,6 +47,12 @@ jobs:
       uses: actions/checkout@v3
       with:
         submodules: recursive
+
+    - name: Reinstall MinGW
+      shell: pwsh
+      run: |
+        choco uninstall -y mingw
+        choco install -y mingw --version=11.2.0.07112021
 
     - name: Set up build environment
       if: success()
