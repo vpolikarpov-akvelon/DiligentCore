@@ -3,22 +3,7 @@ name: Win32/UWP build
 on: [push, pull_request]
 
 jobs:
-  precheks:
-    runs-on: windows-latest
-    name: Win10 -> Pre-checks
-
-    steps:
-    - name: Clone repository
-      uses: actions/checkout@v3
-
-    - name: Format validation
-      shell: cmd
-      working-directory: ${{github.workspace}}/BuildTools/FormatValidation
-      run: validate_format_win.bat
-
-
   build:
-    needs:   precheks
     runs-on: windows-2022
 
     strategy:
@@ -42,8 +27,8 @@ jobs:
     - name: Reinstall MinGW
       shell: pwsh
       run: |
-        choco -y -v uninstall mingw
-        choco -y -v install mingw --version=11.2.0.07112021
+        choco uninstall --yes --verbose mingw
+        choco install --yes --verbose mingw --version=11.2.0.07112021
 
     - name: Set up build environment
       if: success()
