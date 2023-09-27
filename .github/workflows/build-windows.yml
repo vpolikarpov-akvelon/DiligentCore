@@ -25,20 +25,11 @@ jobs:
       fail-fast: false
       matrix:
         name:            ["Win10"]
-        toolset:         ["Win32", "x64"]
-        build_type:      ["Debug", "Release"]
+        toolset:         ["x64"]
+        build_type:      ["Release"]
         cmake_generator: ["Visual Studio 17 2022"]
         cmake_args:      ["-DDILIGENT_BUILD_TESTS=ON"]
         platform:        ["Win32"]
-
-        include:
-
-          - name:            "MinGW"
-            platform:        "Win32"
-            toolset:         "x64"
-            build_type:      "Release"
-            cmake_generator: "MinGW Makefiles"
-            cmake_args:      "-DDILIGENT_BUILD_CORE_TESTS=ON"
 
     name: Win10 -> ${{ matrix.name }}-${{ matrix.toolset }}, ${{ matrix.build_type }}
 
@@ -51,8 +42,8 @@ jobs:
     - name: Reinstall MinGW
       shell: pwsh
       run: |
-        choco uninstall -y mingw
-        choco install -y mingw --version=11.2.0.07112021
+        choco -y -v uninstall mingw
+        choco -y -v install mingw --version=11.2.0.07112021
 
     - name: Set up build environment
       if: success()
