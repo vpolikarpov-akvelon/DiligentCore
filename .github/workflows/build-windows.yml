@@ -31,7 +31,7 @@ jobs:
       shell: pwsh
       run: |
         choco uninstall --yes --verbose mingw
-        choco install --yes --verbose mingw --version=12.2.0
+        choco install --yes --verbose mingw --version=12.1.0
 
     - name: Set up build environment
       if: success()
